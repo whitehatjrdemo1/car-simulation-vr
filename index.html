@@ -8,20 +8,19 @@
     <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 
-    <script src="./Components/shoot.js"></script>
+    <script src="./shoot.js"></script>
     <script src="./Components/gameObjects.js"></script>
-    <script src="./Components/playerMovement.js"></script>
-    <script src="./Components/enemyShoot.js"></script>
+    <script src="./playerMovement.js"></script>
+    <script src="./Components/rotation.js"></script>
+
+    <script src="./enemyShoot.js"></script>
   </head>
 
   <body>
     <a-scene id="scene" inspector-plugin-recast>
       <!--Assets-->
-      <a-assets timeout=10000>
-        <a-asset-item
-          id="car"
-          src="./models/car/scene.gltf"
-        ></a-asset-item>
+      <a-assets>
+        <a-asset-item id="car" src="./models/car/scene.gltf"></a-asset-item>
         <a-asset-item id="collider" src="./models/navmesh.gltf"></a-asset-item>
         <a-asset-item id="tank" src="./models/tank/scene.gltf"></a-asset-item>
 
@@ -32,7 +31,7 @@
       <!--A-Frame Environment-->
       <a-entity
         id="environment"
-        environment="preset: threetowers; skyType:gradient; lighting:point"
+        environment="preset: egypt; skyType:gradient; lighting:point"
       >
       </a-entity>
 
@@ -52,30 +51,13 @@
         light="type: directional; color: #EEE; intensity: 1"
         position="-1 1 0"
       ></a-entity>
-
       <a-entity
         id="camera-rig"
-        movement-controls="speed: 0.2; constrainToNavMesh: true"
+        movement-controls="constrainToNavMesh: true"
         position="0 1 2"
       >
         <!--Camera and Cursor-->
-        <a-entity
-          id="camera"
-          camera
-          position="0 -1 0"
-          look-controls="pointerLockEnabled: false"
-        >
-          <a-entity
-            id="weapon"
-            gltf-model="#car"
-            position="0 2 6"
-            rotation="0 180 0"
-            scale="0.01 0.010 0.010"
-            player-movement
-            body="type:static;mass:5;shape:none"
-            shape="shape:sphere;radius:5;offset:0 3 0"
-          >
-          </a-entity>
+        <a-entity id="camera" camera position="0 1.6 0">
           <a-cursor></a-cursor>
           <!--Text-->
           <a-entity
@@ -128,7 +110,19 @@
       </a-entity>
 
       <!--Bullets-->
-      <a-entity bullets></a-entity>
+      <!-- <a-entity bullets></a-entity>
+      <a-entity enemy-bullets></a-entity> -->
+      <a-entity
+        id="carModel"
+        gltf-model="#car"
+        car-rotation-reader
+        position="0 1 -10"
+        rotation="0 180 0"
+        scale="1 1 1"
+        body="type: static; mass: 5; shape: none;"
+        shape="shape: sphere; radius: 5; offset: 0 3 0;"
+      >
+      </a-entity>
 
       <!--Game Objects-->
       <a-entity wire-fence boxes></a-entity>
@@ -182,8 +176,6 @@
         animation="property: position; to: 10 0 -40; dur: 20000; easing: linear; loop: true; dir:alternate"
       >
       </a-entity>
-
-      <a-entity enemy-bullets></a-entity>
     </a-scene>
   </body>
 </html>

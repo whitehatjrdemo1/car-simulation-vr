@@ -48,8 +48,8 @@ AFRAME.registerComponent("wire-fence", {
 AFRAME.registerComponent("boxes", {
     schema: {
       height: { type: "number", default: 2 },
-      width: { type: "number", default: 2 },
-      depth: { type: "number", default: 2 },
+      width: { type: "number", default: 0.01 },
+      depth: { type: "number", default: 0.01 },
     },
     init: function () {
   
@@ -80,14 +80,14 @@ AFRAME.registerComponent("boxes", {
         box.setAttribute("position", position);
   
         box.setAttribute("geometry", {
-          primitive: "box",
+          primitive: "cone",
           height: this.data.height,
           width: this.data.width,
           depth: this.data.depth,
         });
   
         box.setAttribute("material", {
-          src: "./images/boxtexture1.jpg",
+          src: "./images/traffic_cone.jpg",
           repeat: "1 1 1",
         });
   
