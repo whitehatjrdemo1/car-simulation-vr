@@ -18,7 +18,7 @@
   <body>
     <a-scene id="scene" inspector-plugin-recast>
       <!--Assets-->
-      <a-assets>
+      <a-assets timeout=10000>
         <a-asset-item id="car" src="./models/car/scene.gltf"></a-asset-item>
         <a-asset-item id="collider" src="./models/navmesh.gltf"></a-asset-item>
         <!-- <a-asset-item id="tank" src="./models/tank/scene.gltf"></a-asset-item> -->
@@ -93,7 +93,7 @@
             <a-entity
               id="timer"
               position="3 0 0"
-              text="font: mozillavr; width:10; height: 5; value: 30"
+              text="font: mozillavr; width:10; height: 5; value: 120"
             ></a-entity>
           </a-entity>
 

@@ -89,6 +89,7 @@ AFRAME.registerComponent("car-rotation-reader", {
         }
       } else {
         if (e.key === "r" || e.key === "R") {
+          this.data.gmeOver=false
           //add the if and block
           var carEl = document.querySelector("#carModel");
           var element = document.querySelector("#gameOver");
@@ -96,7 +97,7 @@ AFRAME.registerComponent("car-rotation-reader", {
           var timerEl = document.querySelector("#timer");
           var lifeEl = document.querySelector("#life");
           var scoreEl = document.querySelector("#score");
-          timerEl.setAttribute("text", { value: 180 });
+          timerEl.setAttribute("text", { value: 120 });
           lifeEl.setAttribute("text", { value: 10 });
           scoreEl.setAttribute("text", { value: 0 });
 
