@@ -6,10 +6,10 @@ AFRAME.registerComponent("terrain-rotation-reader", {
   init: function () {
     window.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight") {
-        this.data.speedOfRotation += 5;
+        this.data.speedOfRotation += 1;
       }
       if (e.key === "ArrowLeft") {
-        this.data.speedOfRotation -= 5;
+        this.data.speedOfRotation -= 1;
       }
       var mapRotation = this.el.getAttribute("rotation");
 
@@ -56,7 +56,7 @@ AFRAME.registerComponent("car-rotation-reader", {
       var planePosition = this.data.speedOfAscent;
       // console.log(e);
 
-      console.log(planeRotation);
+     // console.log(planeRotation);
       //control the attributes with the Arrow Keys
       if (e.key === "ArrowRight") {
         //   if (planeRotation.x < 10) {
@@ -82,7 +82,7 @@ AFRAME.registerComponent("car-rotation-reader", {
         // console.log(e);
         this.el.setAttribute("velocity", direction.multiplyScalar(0));
       }
-      console.log(planeRotation);
+     // console.log(planeRotation);
     });
   },
 });
@@ -130,9 +130,10 @@ AFRAME.registerComponent("camera-rotation-reader", {
     var position = car.getAttribute("position");
     var x = position.x;
     var y = position.y + 5;
-    var z = position.z + 5;
+    var z = position.z + 10;
     var camPosition = { x: x, y: y, z: z };
     this.el.setAttribute("position", camPosition);
+   // console.log(position)
     player.getWorldDirection(direction);
     cam.getWorldDirection(camDirection);
     direction = direction.sub(camDirection);
@@ -145,7 +146,7 @@ AFRAME.registerComponent("camera-rotation-reader", {
 
     // // Subtract the vectors to get the direction the entity should head in.
     // directionVec3.copy(targetPosition).sub(currentPosition);
-    this.el.setAttribute("position", direction.multiplyScalar(1.2));
+    this.el.setAttribute("rotation", direction.multiplyScalar(1.2));
 
     // this.el.setAttribute("look-at", car);
 
