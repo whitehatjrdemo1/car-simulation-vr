@@ -1,14 +1,18 @@
 AFRAME.registerComponent("game-play", {
   schema: {
-    elementId: { type: "string", default: "" },
+    elementId: { type: "string", default: "" }, //change default
     gmeOvr: { type: "boolean", default: false }, //add
   },
   update: function () {
-    var isVisible = this.el.getAttribute("visible"); //add
-    this.isCollided(this.data.elementId, isVisible); //add isVisible
+    this.isCollided(this.data.elementId); 
   },
+// tick:function(){//add
+//   this. isVisible = this.el.getAttribute("visible"); 
 
+// },
   init: function () {
+  this. isVisible = this.el.getAttribute("visible"); //add
+
     var duration = 120;
     const timerEl = document.querySelector("#timer");
     this.startTimer(duration, timerEl);
@@ -38,21 +42,23 @@ AFRAME.registerComponent("game-play", {
       }
     }, 1000);
   },
-  isCollided: function (elemntId, isVisible) {
+  isCollided: function (elemntId) {
     //add isVisible
     const element = document.querySelector(elemntId);
     element.addEventListener("collide", (e) => {
       if (elemntId.includes("#carModel")) {
         console.log(e);
       }
-      if (elemntId.includes("#tr") && !this.data.gmeOvr && isVisible) {
+      if (elemntId.includes("#tr") && !this.data.gmeOvr && this.isVisible) {
         //add && isVisible
         //add &&
         // console.log(this.gameOvr);
+        this.isVisible=false //add
+        console.log("collide", elemntId,this.isVisible)
         element.setAttribute("visible", false);
         this.updateScore();
         this.updateTarget();
-      } else if(elemntId.includes("#bx")){ //change to else if
+      } else if(elemntId.includes("#bx")&&!this.data.gameOvr){ //change to else if
         this.gameOver();
         //console.log(e.target, e.detail);
       }

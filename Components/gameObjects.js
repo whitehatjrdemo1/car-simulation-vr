@@ -112,17 +112,17 @@ AFRAME.registerComponent("boxes", {
     //z position array
     tz = [-15, -20, -25, -30, -35, -40, -35, -30, -25, -20];
 
-    for (var i = 0; i < tx.length; i++) {
+    for (var j = 0; j < tx.length; j++) {
       var target = document.createElement("a-entity");
 
       //Update the position variables values from the array values.
-      posTX = tx[i];
+      posTX = tx[j];
       posTY = 1.5;
-      posTZ = tz[i];
+      posTZ = tz[j];
 
       positionT = { x: posTX, y: posTY, z: posTZ };
 
-      target.setAttribute("id", "tr" + i);
+      target.setAttribute("id", "tr" + j);
 
       target.setAttribute("position", positionT);
 
@@ -141,7 +141,7 @@ AFRAME.registerComponent("boxes", {
       target.setAttribute("static-body", {});
       //      vehicleEl.setAttribute("dynamic-body");
       target.setAttribute("game-play", {
-        elementId: `#tr${i}`,
+        elementId: `#tr${j}`,
       });
       var sceneEl = document.querySelector("#scene");
       sceneEl.appendChild(target);
