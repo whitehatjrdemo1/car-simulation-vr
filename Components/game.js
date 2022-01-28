@@ -1,6 +1,6 @@
 AFRAME.registerComponent("game-play", {
   schema: {
-    elementId: { type: "string", default: "#bx1" },
+    elementId: { type: "string", default: "" },
     gmeOvr: { type: "boolean", default: false }, //add
   },
   update: function () {
