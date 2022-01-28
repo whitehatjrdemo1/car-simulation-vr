@@ -52,7 +52,7 @@
       ></a-entity>
       <a-entity
         id="camera-rig"
-        movement-controls="constrainToNavMesh: ; speed:0"
+        movement-controls="constrainToNavMesh: true; speed:0"
         position="0 1 2"
       >
         <a-entity id="camera" camera position="0 1.6 0" camera-rotation-reader>
@@ -104,7 +104,14 @@
             visible="false"
           >
           </a-entity>
-
+          <!-- add the restart entity -->
+          <a-entity
+          id="restart"
+          position="1 -2 -3"
+          text="font: mozillavr; width:5; height: 5; value: Press R to play again"
+          visible="false"
+        >
+        </a-entity>
           <a-entity
             id="completed"
             position="1.5 1 -3"

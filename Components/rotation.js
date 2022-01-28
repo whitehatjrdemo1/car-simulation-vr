@@ -40,6 +40,7 @@ AFRAME.registerComponent("car-rotation-reader", {
   schema: {
     speedOfRotation: { type: "number", default: 0 },
     speedOfAscent: { type: "number", default: 0 },
+    gmeOver: { type: "boolean", default: false }, //add
   },
   init: function () {
     window.addEventListener("keydown", (e) => {
@@ -56,33 +57,70 @@ AFRAME.registerComponent("car-rotation-reader", {
       var planePosition = this.data.speedOfAscent;
       // console.log(e);
 
-     // console.log(planeRotation);
+      // console.log(planeRotation);
       //control the attributes with the Arrow Keys
-      if (e.key === "ArrowRight") {
-        //   if (planeRotation.x < 10) {
-        planeRotation.y -= 5;
-        this.el.setAttribute("rotation", planeRotation);
-        this.el.setAttribute("velocity", direction.multiplyScalar(3));
-        //   }
+
+      if (!this.data.gmeOver) {
+        //add the if
+
+        if (e.key === "ArrowRight") {
+          //   if (planeRotation.x < 10) {
+          planeRotation.y -= 5;
+          this.el.setAttribute("rotation", planeRotation);
+          this.el.setAttribute("velocity", direction.multiplyScalar(3));
+          //   }
+        }
+        if (e.key === "ArrowLeft") {
+          //   if (planeRotation.x > -10) {
+          planeRotation.y += 5;
+          this.el.setAttribute("rotation", planeRotation);
+          this.el.setAttribute("velocity", direction.multiplyScalar(3));
+          //   }
+        }
+        if (e.key === "ArrowUp") {
+          this.el.setAttribute("velocity", direction.multiplyScalar(6));
+        }
+        if (e.key === "ArrowDown") {
+          this.el.setAttribute("velocity", direction.multiplyScalar(-3));
+        }
+        if (e.key === " ") {
+          // console.log(e);
+          this.el.setAttribute("velocity", direction.multiplyScalar(0));
+        }
+      } else {
+        if (e.key === "r" || e.key === "R") {
+          //add the if and block
+          var carEl = document.querySelector("#carModel");
+          var element = document.querySelector("#gameOver");
+          var restart = document.querySelector("#restart");
+          var timerEl = document.querySelector("#timer");
+          var lifeEl = document.querySelector("#life");
+          var scoreEl = document.querySelector("#score");
+          timerEl.setAttribute("text", { value: 180 });
+          lifeEl.setAttribute("text", { value: 10 });
+          scoreEl.setAttribute("text", { value: 0 });
+
+          element.setAttribute("visible", false);
+          restart.setAttribute("visible", false);
+
+          carEl.setAttribute("car-rotation-reader", { gmeOver: false });
+          carEl.setAttribute("velocity", { x: 0, y: 0, z: 0 });
+          carEl.setAttribute("position", { x: 0, y: 1, z: -10 });
+          carEl.setAttribute("rotation", { x: 0, y: 180, z:0 });
+
+
+          for (var i = 0; i < 10; i++) {
+            target = document.querySelector(`#tr${i}`);
+            target.setAttribute("game-play", { gmeOvr: false });
+            target.setAttribute("visible", true);
+
+            box = document.querySelector(`#bx${i}`);
+            box.setAttribute("game-play", { gmeOvr: false });
+          }
+        }
       }
-      if (e.key === "ArrowLeft") {
-        //   if (planeRotation.x > -10) {
-        planeRotation.y += 5;
-        this.el.setAttribute("rotation", planeRotation);
-        this.el.setAttribute("velocity", direction.multiplyScalar(3));
-        //   }
-      }
-      if (e.key === "ArrowUp") {
-        this.el.setAttribute("velocity", direction.multiplyScalar(6));
-      }
-      if (e.key === "ArrowDown") {
-        this.el.setAttribute("velocity", direction.multiplyScalar(-3));
-      }
-      if (e.key === " ") {
-        // console.log(e);
-        this.el.setAttribute("velocity", direction.multiplyScalar(0));
-      }
-     // console.log(planeRotation);
+
+      // console.log(planeRotation);
     });
   },
 });
@@ -133,7 +171,7 @@ AFRAME.registerComponent("camera-rotation-reader", {
     var z = position.z + 10;
     var camPosition = { x: x, y: y, z: z };
     this.el.setAttribute("position", camPosition);
-   // console.log(position)
+    // console.log(position)
     player.getWorldDirection(direction);
     cam.getWorldDirection(camDirection);
     direction = direction.sub(camDirection);
