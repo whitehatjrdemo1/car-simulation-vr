@@ -111,7 +111,12 @@ AFRAME.registerComponent("game-play", {
       target = document.querySelector(`#tr${i}`);
       target.setAttribute("game-play", { gmeOvr: true });
 
-      box = document.querySelector(`#bx${i}`);
+     
+    }
+    for (var j = 0; j < 20; j++) {
+      //add for loop
+      
+      box = document.querySelector(`#bx${j}`);
       box.setAttribute("game-play", { gmeOvr: true });
     }
     //console.log(this.gameOvr);

@@ -89,7 +89,7 @@ AFRAME.registerComponent("car-rotation-reader", {
         }
       } else {
         if (e.key === "r" || e.key === "R") {
-          this.data.gmeOver=false
+          this.data.gmeOver = false;
           //add the if and block
           var carEl = document.querySelector("#carModel");
           var element = document.querySelector("#gameOver");
@@ -107,16 +107,22 @@ AFRAME.registerComponent("car-rotation-reader", {
           carEl.setAttribute("car-rotation-reader", { gmeOver: false });
           carEl.setAttribute("velocity", { x: 0, y: 0, z: 0 });
           carEl.setAttribute("position", { x: 0, y: 1, z: -10 });
-          carEl.setAttribute("rotation", { x: 0, y: 180, z:0 });
-
+          carEl.setAttribute("rotation", { x: 0, y: 180, z: 0 });
 
           for (var i = 0; i < 10; i++) {
             target = document.querySelector(`#tr${i}`);
-            target.setAttribute("game-play", { gmeOvr: false });
+            target.setAttribute("game-play", {
+              gmeOvr: false,
+              elementId: `#tr${i}`,
+            });
             target.setAttribute("visible", true);
-
-            box = document.querySelector(`#bx${i}`);
-            box.setAttribute("game-play", { gmeOvr: false });
+          }
+          for (var j = 0; j < 20; j++) {
+            box = document.querySelector(`#bx${j}`);
+            box.setAttribute("game-play", {
+              gmeOvr: false,
+              elementId: `#bx${j}`,
+            });
           }
         }
       }

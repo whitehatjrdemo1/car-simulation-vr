@@ -9,7 +9,7 @@ AFRAME.registerComponent("wire-fence", {
       posZ -= 10;
       var scale = { x: 2, y: 2, z: 2 };
       wireFence1.setAttribute("id", "wireFence1" + i);
-      wireFence1.setAttribute("position", { x: posX, y: 2.5, z: -35 });
+      wireFence1.setAttribute("position", { x: posX, y: 2.5, z: -65 });
       wireFence1.setAttribute("scale", scale);
       wireFence1.setAttribute(
         "gltf-model",
@@ -66,11 +66,15 @@ AFRAME.registerComponent("boxes", {
   init: function () {
     //x position array
     px = [
-      22.86, -17.35, -12.81, 0.44, -30.18, -25.89, 15.61, 29.68, 11.95, -15.4,
+      15, -15, 12.5, -12.5, 10, -10, 7.5, -7.5, 5, -5, 7.5, -7.5, 5, -5, 5, -5,
+      5, -5, 5, -5,
     ];
 
     //z position array
-    pz = [-15, -20, -25, -30, -35, -40, -35, -30, -25, -20];
+    pz = [
+      -10, -15, -20, -25, -30, -35, -40, -45, -50, -55, -10, -15, -20, -25, -30,
+      -35, -40, -45, -50, -55,
+    ];
 
     for (var i = 0; i < px.length; i++) {
       var box = document.createElement("a-entity");
@@ -105,12 +109,10 @@ AFRAME.registerComponent("boxes", {
       var sceneEl = document.querySelector("#scene");
       sceneEl.appendChild(box);
     }
-    tx = [
-      30.86, -14.35, -20.81, 8.44, -38.18, -33.89, 23.61, 36.68, 19.95, -23.4,
-    ];
+    tx = [15, -15, 12.5, -12.5, 10, -10, 7.5, -7.5, 5, 0];
 
     //z position array
-    tz = [-15, -20, -25, -30, -35, -40, -35, -30, -25, -20];
+    tz = [-15, -20, -25, -30, -35, -40, -45, -50, -55, -60];
 
     for (var j = 0; j < tx.length; j++) {
       var target = document.createElement("a-entity");
@@ -125,16 +127,16 @@ AFRAME.registerComponent("boxes", {
       target.setAttribute("id", "tr" + j);
 
       target.setAttribute("position", positionT);
+      target.setAttribute("rotation", { x: 90, y: 0, z: 0 });
 
       target.setAttribute("geometry", {
-        primitive: "torus",
-        radius: this.data.height,
-        tubularRadius: this.data.width,
-        depth: this.data.depth,
+        primitive: "cylinder",
+        height: this.data.width * 10,
+        radius: this.data.height / 2,
       });
       //  target.setAttribute("rotation", "0 90 0");
       target.setAttribute("material", {
-        src: "./images/traffic_cone.jpg",
+        src: "./images/target-logo-2.png",
         repeat: "1 1 1",
       });
 
