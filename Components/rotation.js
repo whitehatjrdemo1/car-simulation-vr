@@ -116,6 +116,7 @@ AFRAME.registerComponent("car-rotation-reader", {
               elementId: `#tr${i}`,
             });
             target.setAttribute("visible", true);
+           // console.log(`tr${i}`);
           }
           for (var j = 0; j < 20; j++) {
             box = document.querySelector(`#bx${j}`);
