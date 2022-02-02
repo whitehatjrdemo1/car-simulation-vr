@@ -177,6 +177,8 @@ AFRAME.registerComponent("boxes", {
       arrow.setAttribute("material", {
         src: "./images/arrow.png",
         repeat: "1 -1 1",
+        transparent: "true",
+
       });
 
       arrow.setAttribute("static-body", {});
