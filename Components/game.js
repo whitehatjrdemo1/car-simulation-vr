@@ -111,9 +111,9 @@ AFRAME.registerComponent("game-play", {
             .setAttribute("game-play", { targetActive: true });
           document.querySelector(`#ar${id}`).setAttribute("visible", true);
         }
-        // } else if (elemntId.includes("#bx")) {  //add back
+         } else if (elemntId.includes("#bx")) {  //add back
         //   //change to else if
-        //   this.gameOver();
+           this.gameOver();
         //   console.log("collide");
 
         //console.log(e.target, e.detail);
