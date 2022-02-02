@@ -67,14 +67,14 @@ AFRAME.registerComponent("car-rotation-reader", {
           //   if (planeRotation.x < 10) {
           planeRotation.y -= 5;
           this.el.setAttribute("rotation", planeRotation);
-          this.el.setAttribute("velocity", direction.multiplyScalar(3));
+          this.el.setAttribute("velocity", direction.multiplyScalar(6));
           //   }
         }
         if (e.key === "ArrowLeft") {
           //   if (planeRotation.x > -10) {
           planeRotation.y += 5;
           this.el.setAttribute("rotation", planeRotation);
-          this.el.setAttribute("velocity", direction.multiplyScalar(3));
+          this.el.setAttribute("velocity", direction.multiplyScalar(6));
           //   }
         }
         if (e.key === "ArrowUp") {
@@ -98,6 +98,8 @@ AFRAME.registerComponent("car-rotation-reader", {
           var lifeEl = document.querySelector("#life");
           var scoreEl = document.querySelector("#score");
           timerEl.setAttribute("text", { value: 120 });
+          timerEl.setAttribute("timer", { gmeOvr: false });
+
           lifeEl.setAttribute("text", { value: 10 });
           scoreEl.setAttribute("text", { value: 0 });
 
@@ -111,12 +113,34 @@ AFRAME.registerComponent("car-rotation-reader", {
 
           for (var i = 0; i < 10; i++) {
             target = document.querySelector(`#tr${i}`);
-            target.setAttribute("game-play", {
-              gmeOvr: false,
-              elementId: `#tr${i}`,
-            });
+            arrow = document.querySelector(`#ar${i}`);
+            if (i === 0) {
+              target.setAttribute("game-play", {
+                elementId: `#tr${i}`,
+                gmeOvr: false,
+                targetActive: true,
+              });
+              arrow.setAttribute("game-play", {
+                elementId: `#ar${i}`,
+                gmeOvr: false,
+                targetActive: true,
+              });
+              arrow.setAttribute("visible", true);
+            } else {
+              target.setAttribute("game-play", {
+                elementId: `#tr${i}`,
+                gmeOvr: false,
+                targetActive: false,
+              });
+              arrow.setAttribute("game-play", {
+                elementId: `#ar${i}`,
+                gmeOvr: false,
+                targetActive: false,
+              });
+              arrow.setAttribute("visible", false);
+            }
             target.setAttribute("visible", true);
-           // console.log(`tr${i}`);
+            // console.log(`tr${i}`);
           }
           for (var j = 0; j < 20; j++) {
             box = document.querySelector(`#bx${j}`);

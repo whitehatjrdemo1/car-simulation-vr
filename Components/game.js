@@ -2,16 +2,33 @@ AFRAME.registerComponent("game-play", {
   schema: {
     elementId: { type: "string", default: "" }, //change default
     gmeOvr: { type: "boolean", default: false }, //add
+    targetActive: { type: "boolean", default: false },
   },
   update: function () {
+    //console.log(this.data.gmeOvr);
     this.isVisible = this.el.getAttribute("visible"); //add
-
-    this.isCollided(this.data.elementId);
+    // console.log(this.data.gmeOvr);
     if (!this.data.gmeOvr) {
+      this.isCollided(this.data.elementId);
+
       var duration = 120;
       const timerEl = document.querySelector("#timer");
+      clearInterval(this.gameStart);
       this.startTimer(duration, timerEl);
     }
+
+    var elementId = this.el.getAttribute("id");
+    // console.log(elementId, this.data.targetActive);
+
+    // if (elementId.includes("#ar")) {
+    //   if (this.data.targetActive) {
+    //     this.el.setAttribute("visible", true);
+    //     console.log("visible");
+    //   } else {
+    //     this.el.setAttribute("visible", false);
+    //     console.log(" not visible");
+    //   }
+    // }
   },
   // tick:function(){//add
   //   this. isVisible = this.el.getAttribute("visible");
@@ -29,26 +46,30 @@ AFRAME.registerComponent("game-play", {
   startTimer: function (duration, timerEl) {
     var minutes;
     var seconds;
-    this.gameStart = setInterval(() => {
-      if (duration >= 0 && !this.data.gmeOvr) {
-        //add &&
-        minutes = parseInt(duration / 60);
-        seconds = parseInt(duration % 60);
-        if (minutes < 10) {
-          minutes = "0" + minutes;
+    if (!this.gameStart) {
+      this.gameStart = setInterval(() => {
+        if (!this.data.gmeOvr) {
+          if (duration >= 0) {
+            //add &&
+            minutes = parseInt(duration / 60);
+            seconds = parseInt(duration % 60);
+            if (minutes < 10) {
+              minutes = "0" + minutes;
+            }
+            if (seconds < 10) {
+              seconds = "0" + seconds;
+            }
+            timerEl.setAttribute("text", {
+              value: minutes + ":" + seconds,
+            });
+            duration -= 1;
+          } else {
+            //console.log("timer");
+            this.gameOver(false);
+          }
         }
-        if (seconds < 10) {
-          seconds = "0" + seconds;
-        }
-        timerEl.setAttribute("text", {
-          value: minutes + ":" + seconds,
-        });
-        duration -= 1;
-      } else if (!this.data.gmeOvr) {
-        console.log("timer");
-        this.gameOver();
-      }
-    }, 1000);
+      }, 1000);
+    }
   },
   isCollided: function (elemntId) {
     this.isVisible = this.el.getAttribute("visible"); //add
@@ -56,23 +77,44 @@ AFRAME.registerComponent("game-play", {
     //add isVisible
     const element = document.querySelector(elemntId);
     element.addEventListener("collide", (e) => {
-      console.log(elemntId, this.data.gmeOvr, this.isVisible);
-      if (elemntId.includes("#carModel")) {
-        console.log(e);
-      }
+      // console.log(this.data.targetActive);
+      //  console.log(elemntId.toString());
+      //console.log(elemntId, this.data.gmeOvr, this.isVisible);
+      if (this.data.targetActive) {
+        if (elemntId.includes("#tr") && this.isVisible) {
+          //add && isVisible
+          //add &&
+          // console.log(elemntId);
+          this.isVisible = false; //add
+          element.setAttribute("visible", false);
+          element.setAttribute("game-play", { targetActive: false });
 
-      if (elemntId.includes("#tr") && !this.data.gmeOvr && this.isVisible) {
-        //add && isVisible
-        //add &&
-        console.log(elemntId);
-        this.isVisible = false; //add
-        element.setAttribute("visible", false);
-        this.updateScore();
-        this.updateTarget();
-      } else if (elemntId.includes("#bx") && !this.data.gmeOvr) {
-        //change to else if
-        this.gameOver();
-        console.log("collide");
+          this.updateScore();
+          this.updateTarget();
+          var id = parseInt(elemntId.toString()[3]);
+          document
+            .querySelector(`#ar${id}`)
+            .setAttribute("game-play", { targetActive: false });
+          document.querySelector(`#ar${id}`).setAttribute("visible", false);
+          document
+            .querySelector(`#tr${id}`)
+            .setAttribute("game-play", { targetActive: false });
+          if (id < 9) {
+            id = id + 1;
+          }
+          //console.log(id);
+          document
+            .querySelector(`#tr${id}`)
+            .setAttribute("game-play", { targetActive: true });
+          document
+            .querySelector(`#ar${id}`)
+            .setAttribute("game-play", { targetActive: true });
+          document.querySelector(`#ar${id}`).setAttribute("visible", true);
+        }
+        // } else if (elemntId.includes("#bx")) {  //add back
+        //   //change to else if
+        //   this.gameOver();
+        //   console.log("collide");
 
         //console.log(e.target, e.detail);
       }
@@ -85,9 +127,9 @@ AFRAME.registerComponent("game-play", {
     currentTargets -= 1;
     if (currentTargets <= 0) {
       //add if block
-      var completed = document.querySelector("completed");
+      var completed = document.querySelector("#completed");
       completed.setAttribute("visible", true);
-      this.gameOver();
+      this.gameOver(true);
     }
     element.setAttribute("text", {
       value: currentTargets,
@@ -102,20 +144,38 @@ AFRAME.registerComponent("game-play", {
       value: currentScore,
     });
   },
-  gameOver: function () {
+  gameOver: function (completed) {
     var carEl = document.querySelector("#carModel");
     var element = document.querySelector("#gameOver");
     var restart = document.querySelector("#restart"); //add
     this.data.gmeOvr = true;
-    element.setAttribute("visible", true);
+    console.log(completed);
+    if (!completed) {
+      element.setAttribute("visible", true);
+    }
     restart.setAttribute("visible", true); //add
+    // console.log(this.gameStart, "over");
+
     clearInterval(this.gameStart);
+    this.gameStart = null;
+
+    // console.log(this.gameStart, "over");
     carEl.setAttribute("car-rotation-reader", { gmeOver: true }); //add
     carEl.setAttribute("velocity", { x: 0, y: 0, z: 0 });
     for (var i = 0; i < 10; i++) {
       //add for loop
-      target = document.querySelector(`#tr${i}`);
-      target.setAttribute("game-play", { gmeOvr: true });
+      var target = document.querySelector(`#tr${i}`);
+      target.setAttribute("game-play", {
+        gmeOvr: true,
+        targetActive: false,
+        elementId: `#tr${i}`,
+      });
+      var arrow = document.querySelector(`#ar${i}`);
+      arrow.setAttribute("game-play", {
+        gmeOvr: true,
+        targetActive: false,
+        elementId: `#ar${i}`,
+      });
       // console.log(`#tr${i}`);
     }
     for (var j = 0; j < 20; j++) {

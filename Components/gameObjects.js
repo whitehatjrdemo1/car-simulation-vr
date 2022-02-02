@@ -102,6 +102,7 @@ AFRAME.registerComponent("boxes", {
       //vehicleEl.setAttribute("dynamic-body");
       box.setAttribute("game-play", {
         elementId: `#bx${i}`,
+        gmeOvr: false,
       });
 
       box.setAttribute("static-body", {});
@@ -142,11 +143,81 @@ AFRAME.registerComponent("boxes", {
 
       target.setAttribute("static-body", {});
       //      vehicleEl.setAttribute("dynamic-body");
-      target.setAttribute("game-play", {
-        elementId: `#tr${j}`,
-      });
-      var sceneEl = document.querySelector("#scene");
+      if (j === 0) {
+        target.setAttribute("game-play", {
+          elementId: `#tr${j}`,
+          gmeOvr: false,
+          targetActive: true,
+
+        });
+      } else {
+        target.setAttribute("game-play", {
+          elementId: `#tr${j}`,
+          gmeOvr: false,
+          targetActive: false,
+
+        });
+      }
       sceneEl.appendChild(target);
+
+      var arrow = document.createElement("a-entity");
+
+      arrow.setAttribute("id", "ar" + j);
+
+      arrow.setAttribute("position", { x: posTX, y: 5, z: posTZ });
+      arrow.setAttribute("rotation", { x: 0, y: 0, z: 0 });
+
+      arrow.setAttribute("geometry", {
+        primitive: "box",
+        height: this.data.height,
+        width: this.data.height / 2,
+        depth: this.data.depth,
+      });
+      //  target.setAttribute("rotation", "0 90 0");
+      arrow.setAttribute("material", {
+        src: "./images/arrow.png",
+        repeat: "1 -1 1",
+      });
+
+      arrow.setAttribute("static-body", {});
+      //      vehicleEl.setAttribute("dynamic-body");
+      if (j === 0) {
+        arrow.setAttribute("game-play", {
+          elementId: `#ar${j}`,
+          gmeOvr: false,
+          targetActive: true,
+        });
+        arrow.setAttribute("visible", true);
+      } else {
+        arrow.setAttribute("game-play", {
+          elementId: `#ar${j}`,
+          gmeOvr: false,
+          targetActive: false,
+        });
+        arrow.setAttribute("visible", false);
+      }
+      sceneEl.appendChild(arrow);
     }
   },
+  // update: function () {
+  //   var arrow = this.el;
+  //   var elementId = arrow.getAttribute("id");
+  //   if (elementId.includes("#ar")) {
+  //     if (this.data.targetActive) {
+  //       arrow.setAttribute("game-play", {
+  //         elementId: `#ar${j}`,
+  //         gmeOvr: false,
+  //         targetActive: true,
+  //       });
+  //       arrow.setAttribute("visible", true);
+  //     } else {
+  //       arrow.setAttribute("game-play", {
+  //         elementId: `#ar${j}`,
+  //         gmeOvr: false,
+  //         targetActive: false,
+  //       });
+  //       arrow.setAttribute("visible", false);
+  //     }
+  //   }
+  //  },
 });
