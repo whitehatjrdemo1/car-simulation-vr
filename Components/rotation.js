@@ -156,51 +156,68 @@ AFRAME.registerComponent("car-rotation-reader", {
     });
   },
 });
+AFRAME.registerComponent("camera-change", {
+  schema: {
+    cameraPosition: { type: "number", default: 0 }, //add
+  },
+  init: function () {
+    window.addEventListener("keydown", (e) => {
+      var cam = document.querySelector("#camera");
+      var camPosition = cam.getAttribute(
+        "camera-rotation-reader"
+      ).cameraPosition;
+      if (e.key === "c" || e.key === "C") {
+        camPosition = parseInt(camPosition) + 1;
+        if (camPosition >= 0 && camPosition <= 2) {
+          cam.setAttribute("camera-rotation-reader", {
+            cameraPosition: camPosition,
+          });
+        } else {
+          cam.setAttribute("camera-rotation-reader", {
+            cameraPosition: 0,
+          });
+        }
+      }
+    });
+  },
+});
 AFRAME.registerComponent("camera-rotation-reader", {
   schema: {
     speedOfRotation: { type: "number", default: 0 },
     speedOfAscent: { type: "number", default: 0 },
+    cameraPosition: { type: "number", default: 0 },
   },
-  // init: function () {
-  //   window.addEventListener("keydown", (e) => {
-  //     //get the data from the attributes
-  //     this.data.speedOfRotation = this.el.getAttribute("rotation");
-  //     this.data.speedOfAscent = this.el.getAttribute("position");
 
-  //     var planeRotation = this.data.speedOfRotation;
-  //     var planePosition = this.data.speedOfAscent;
-
-  //     console.log(planeRotation);
-  //     //control the attributes with the Arrow Keys
-  //     if (e.key === "ArrowRight") {
-  //       //   if (planeRotation.x < 10) {
-  //       planeRotation.y -= 1;
-  //       this.el.setAttribute("rotation", planeRotation);
-  //       // this.el.setAttribute("velocity", direction.multiplyScalar(0))
-  //       //   }
-  //     }
-  //     if (e.key === "ArrowLeft") {
-  //       //   if (planeRotation.x > -10) {
-  //       planeRotation.y += 1;
-  //       this.el.setAttribute("rotation", planeRotation);
-  //       // this.el.setAttribute("velocity", direction.multiplyScalar(0))
-  //       //   }
-  //     }
-  //   });
-  // },
   init: function () {
     this.directionVec3 = new THREE.Vector3();
   },
   tick: function () {
+    if (this.data.cameraPosition === 0) {
+      cx = 0;
+      cy = 5;
+      cz = 10;
+    } else if (this.data.cameraPosition === 1) {
+      cx = 0;
+      cy = 0;
+      cz = -2.5;
+      // } else if (this.data.cameraPosition === 2) {
+      //   cx = 0;
+      //   cy = -1.5;
+      //   cz = -2;
+    } else {
+      cx = 0;
+      cy = 1;
+      cz = -0.5;
+    }
     var car = document.querySelector("#carModel");
     var player = document.querySelector("#carModel").object3D;
     var cam = document.querySelector("#camera").object3D;
     var direction = new THREE.Vector3();
     var camDirection = new THREE.Vector3();
     var position = car.getAttribute("position");
-    var x = position.x;
-    var y = position.y + 5;
-    var z = position.z + 10;
+    var x = position.x + cx;
+    var y = position.y + +cy;
+    var z = position.z + cz;
     var camPosition = { x: x, y: y, z: z };
     this.el.setAttribute("position", camPosition);
     // console.log(position)

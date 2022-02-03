@@ -148,14 +148,12 @@ AFRAME.registerComponent("boxes", {
           elementId: `#tr${j}`,
           gmeOvr: false,
           targetActive: true,
-
         });
       } else {
         target.setAttribute("game-play", {
           elementId: `#tr${j}`,
           gmeOvr: false,
           targetActive: false,
-
         });
       }
       sceneEl.appendChild(target);
